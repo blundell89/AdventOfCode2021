@@ -1,28 +1,38 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AoC.App;
+using FluentAssertions;
 using Xunit;
-using Xunit.Abstractions;
 
-namespace AoC.Test
+namespace AoC.Test;
+
+public class Day2
 {
-    public class Day2
+    [Fact]
+    public void Test1_Dive_Example()
     {
-        private readonly ITestOutputHelper _testOutputHelper;
-
-        public Day2(ITestOutputHelper testOutputHelper)
+        var commands = new[]
         {
-            _testOutputHelper = testOutputHelper;
-        }
+            "forward 5",
+            "down 5",
+            "forward 8",
+            "up 3",
+            "down 8",
+            "forward 2"
+        };
 
-        [Fact]
-        public async Task Test1()
-        {
-        }
+        var result = Day2_Dive.CalculatePositionDepth(commands);
+        (result.Horizontal * result.Depth).Should().Be(150);
+    }
 
-        [Fact]
-        public async Task Test2()
-        {
-        }
+    [Fact]
+    public async Task Test1_Dive()
+    {
+        using var reader = ResourceReaderFactory.Create("2-1.txt");
+        var commands = (await reader.ReadToEndAsync()).Split(Environment.NewLine);
+
+        var result = Day2_Dive.CalculatePositionDepth(commands);
+        (result.Horizontal * result.Depth).Should().Be(1840243);
     }
 }
